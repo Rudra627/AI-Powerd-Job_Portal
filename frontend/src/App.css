@@ -1,0 +1,9 @@
+.sidebar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}

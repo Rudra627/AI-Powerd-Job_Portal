@@ -1,0 +1,12 @@
+.navbar {
+  background-color: var(--primary);
+}
+
+.navbar a {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
