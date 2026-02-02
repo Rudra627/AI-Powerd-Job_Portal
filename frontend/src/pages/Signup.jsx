@@ -138,6 +138,11 @@ export default function Signup() {
             setForm({ ...form, confirmPassword: e.target.value })
           }
         />
+        <select className="form-control mb-2" value={form.role} onChange={e => setForm({ ...form, role: e.target.value })}>
+          <option value="">Select Role</option>
+          <option value="company">Company</option>
+          <option value="employe">Employer</option>
+        </select>
         {/* CAPTCHA */}
         <div className="border rounded p-2 mb-3">
           <div className="d-flex justify-content-between align-items-center mb-2">

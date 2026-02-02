@@ -43,7 +43,7 @@ export default function VerifyEmail() {
 
     try {
       await fetch(
-        "https://dt20tzx0-5000.inc1.devtunnels.ms/resend-verification",
+        "https://dt20tzx0-5000.inc1.devtunnels.ms/verification",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export default function VerifyEmail() {
               <strong>{email}</strong>
             </p>
 
-            <div className="spinner-border text-primary my-3"></div>
+            <div className="spinner-border  my-3"></div>
 
             <p className="small text-muted">
               Waiting for verification...
