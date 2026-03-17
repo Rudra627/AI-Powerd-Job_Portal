@@ -78,7 +78,7 @@ export default function Signup() {
       }
 
       toast.success("Signup successful! Verify your email 📩");
-
+      
       // Save email for verification page
       localStorage.setItem("verifyEmail", form.email);
 
@@ -141,7 +141,7 @@ export default function Signup() {
         <select className="form-control mb-2" value={form.role} onChange={e => setForm({ ...form, role: e.target.value })}>
           <option value="">Select Role</option>
           <option value="company">Company</option>
-          <option value="employe">Employer</option>
+          <option value="seeker">Employer</option>
         </select>
         {/* CAPTCHA */}
         <div className="border rounded p-2 mb-3">

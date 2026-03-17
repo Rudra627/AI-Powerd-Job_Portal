@@ -2,13 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Practice() {
-
-  const [language, setLanguage] = useState("python");
   const [level, setLevel] = useState("easy");
   const navigate = useNavigate();
 
   const startPractice = () => {
-    navigate(`/dsa/problems?lang=${language}&level=${level}`);
+    navigate(`/dsa/problems?level=${level}`);
   };
 
   return (
