@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import api from "../utils/api";
 import "./CreatePost.css";   // 👈 add this
 
 export default function CreatePost() {
@@ -39,29 +40,16 @@ export default function CreatePost() {
       return;
     }
 
-    const token = localStorage.getItem("token");
-    setLoading(true);
-
     try {
-      const res = await fetch(
-        "https://dt20tzx0-5000.inc1.devtunnels.ms/content/image_post",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            caption,
-            image,
-            status
-          })
-        }
-      );
+      const res = await api.post("/content/image_post", {
+        caption,
+        image,
+        status
+      });
 
-      const data = await res.json();
+      const data = res.data;
 
-      if (!res.ok) {
+      if (res.status !== 200 && res.status !== 201) {
         toast.error(data.error || "Post failed");
         setLoading(false);
         return;

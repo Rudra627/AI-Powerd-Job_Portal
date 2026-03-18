@@ -1,9 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Layout from "./layouts/MainLayout";
 import CompanyLayout from "./layouts/CompanyLayout";
 
 import Home from "./pages/Home";
+import Landing from "./pages/Landing";
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
@@ -26,6 +27,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 function App() {
+  const token = localStorage.getItem("token");
+
   return (
     <>
       <ToastContainer
@@ -37,9 +40,12 @@ function App() {
       <Router>
         <Routes>
 
+          {/* ================= PUBLIC / LANDING ================= */}
+          <Route path="/" element={token ? <Navigate to="/feed" /> : <Landing />} />
+
           {/* ================= USER LAYOUT ================= */}
           <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/feed" element={<Home />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/:id" element={<JobDetails />} />
             <Route path="/profile" element={<Profile />} />
@@ -52,10 +58,11 @@ function App() {
 
       
 <Route element={<CompanyLayout />}>
+<Route path="/company/" element={<Home/>} />
   <Route path="/company/dashboard" element={<CompanyDashboard />} />
   <Route path="/company/profile" element={<CompanyProfile />} />
   <Route path="/company/post-job" element={<PostJob />} />
-  <Route path="/company/jobs" element={<MyJobs />} />
+  <Route path="/company/company_jobs" element={<MyJobs />} />
   <Route path="/company/applicants" element={<Applicants />} />
 </Route>
 

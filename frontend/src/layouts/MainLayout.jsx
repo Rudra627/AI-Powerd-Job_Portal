@@ -5,11 +5,13 @@ import { Outlet } from "react-router-dom";
 export default function MLayout() {
   return (
     <>
-      {/* NAVBAR (TOP, ALWAYS VISIBLE) */}
-      <Navbar />
+      {/* NAVBAR (TOP, FIXED) */}
+      <div style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, background: "white" }}>
+        <Navbar />
+      </div>
 
       {/* SIDEBAR + PAGE CONTENT */}
-      <div className="d-flex">
+      <div className="d-flex" style={{ marginTop: "70px" }}>
         
         {/* CONSTANT SIDEBAR */}
         <div style={{ width: "260px" }}>

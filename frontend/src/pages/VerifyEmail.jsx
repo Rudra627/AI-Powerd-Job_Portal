@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import api from "../utils/api";
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
@@ -11,11 +12,8 @@ export default function VerifyEmail() {
 
   const checkVerification = async () => {
     try {
-      const res = await fetch(
-        `https://dt20tzx0-5000.inc1.devtunnels.ms/check-verification?email=${email}`
-      );
-
-      const data = await res.json();
+      const res = await api.get(`/check-verification?email=${email}`);
+      const data = res.data;
 
       if (data.verified) {
         setVerified(true);
@@ -42,14 +40,7 @@ export default function VerifyEmail() {
     setLoading(true);
 
     try {
-      await fetch(
-        "https://dt20tzx0-5000.inc1.devtunnels.ms/verification",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email })
-        }
-      );
+      await api.post("/verification", { email });
 
       toast.success("Verification email resent 📩");
     } catch (err) {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const API = "https://dt20tzx0-5000.inc1.devtunnels.ms";
+const API = import.meta.env.VITE_API_BASE_URL;
 
 export default function PostJob() {
 
@@ -11,7 +11,7 @@ export default function PostJob() {
     title: "",
     description: "",
     skill_need: "",
-    employment_type: "full-time",
+    employment_type: "[full-time]",
     experience_min: "",
     salary_min: "",
     salary_max: "",

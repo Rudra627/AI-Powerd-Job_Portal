@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const API = "https://dt20tzx0-5000.inc1.devtunnels.ms";
+const API = import.meta.env.VITE_API_BASE_URL;
 
 export default function MyJobs() {
 
@@ -14,7 +14,7 @@ export default function MyJobs() {
 
   const loadJobs = async () => {
     try {
-      const res = await fetch(`${API}/company/my-jobs`, {
+      const res = await fetch(`${API}/company/company_jobs`, {
         headers: { Authorization: "Bearer " + token }
       });
       const data = await res.json();

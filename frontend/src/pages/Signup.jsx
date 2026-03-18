@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import api from "../utils/api";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -54,24 +55,17 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        "https://dt20tzx0-5000.inc1.devtunnels.ms/signup",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            phone: form.phone,
-            password: form.password,
-            role: form.role
-          })
-        }
-      );
+      const res = await api.post("/signup", {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+        role: form.role
+      });
 
-      const data = await res.json();
+      const data = res.data;
 
-      if (!res.ok) {
+      if (res.status !== 200 && res.status !== 201) {
         toast.error(data.message || "Signup failed");
         setLoading(false);
         return;

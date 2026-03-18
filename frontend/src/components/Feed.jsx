@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-const API = "https://dt20tzx0-5000.inc1.devtunnels.ms/content";
+import api from "../utils/api";
 
 export default function Feed() {
 
@@ -24,16 +23,8 @@ export default function Feed() {
     try {
       setLoading(true);
 
-      const res = await fetch(
-        `${API}/view_posts?page=${page}&limit=5`,
-        {
-          headers: {
-            Authorization: "Bearer " + token
-          }
-        }
-      );
-
-      const data = await res.json();
+      const res = await api.get(`/content/view_posts?page=${page}&limit=5`);
+      const data = res.data;
 
       if (data.posts) {
         setPosts(prev => [...prev, ...data.posts]);
@@ -51,16 +42,8 @@ export default function Feed() {
 
   const likePost = async (id) => {
     try {
-      const res = await fetch(`${API}/like_post`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        },
-        body: JSON.stringify({ post_id: id })
-      });
-
-      const data = await res.json();
+      const res = await api.post("/content/like_post", { post_id: id });
+      const data = res.data;
 
       setPosts(posts.map(p =>
         p.id === id
@@ -87,16 +70,8 @@ export default function Feed() {
 
   const loadComments = async (id) => {
     try {
-      const res = await fetch(`${API}/view_comments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        },
-        body: JSON.stringify({ post_id: id })
-      });
-
-      const data = await res.json();
+      const res = await api.post("/content/view_comments", { post_id: id });
+      const data = res.data;
       setComments(prev => ({ ...prev, [id]: data.comments || [] }));
 
     } catch {
@@ -108,16 +83,9 @@ export default function Feed() {
     if (!commentText.trim()) return;
 
     try {
-      await fetch(`${API}/comment_post`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        },
-        body: JSON.stringify({
-          post_id: id,
-          comment: commentText
-        })
+      await api.post("/content/comment_post", {
+        post_id: id,
+        comment: commentText
       });
 
       setCommentText("");
@@ -127,9 +95,6 @@ export default function Feed() {
       toast.error("Comment failed");
     }
   };
-
-  /* ================= UI ================= */
-
   return (
     <div className="container mt-4" style={{ maxWidth: "600px" }}>
 
