@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
 export default function PostJob() {
 
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   const [job, setJob] = useState({
     title: "",
@@ -34,6 +36,8 @@ export default function PostJob() {
       return;
     }
 
+    setLoading(true);
+
     try {
       const res = await fetch(`${API}/company/post_job`, {
         method: "POST",
@@ -48,6 +52,7 @@ export default function PostJob() {
 
       if (!res.ok) {
         toast.error(data.error || "Failed to post job");
+        setLoading(false);
         return;
       }
 
@@ -69,6 +74,8 @@ export default function PostJob() {
 
     } catch (err) {
       toast.error("Server error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -185,10 +192,19 @@ export default function PostJob() {
 
         {/* Submit */}
         <button
-          className="btn btn-primary w-100"
+          className="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
           onClick={handleSubmit}
+          disabled={loading}
+          style={{ height: "45px" }}
         >
-          Post Job
+          {loading ? (
+            <>
+              <SpinnerLoader size="1.5rem" color="#ffffff" />
+              <span>Posting Job...</span>
+            </>
+          ) : (
+            "Post Job"
+          )}
         </button>
 
       </div>

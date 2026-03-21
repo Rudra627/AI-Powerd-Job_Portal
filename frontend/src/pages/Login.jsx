@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 export default function Login() {
 
@@ -82,9 +83,9 @@ export default function Login() {
       /* ================= ROLE REDIRECT ================= */
 
       if (data.role === "company") {
-        navigate("/company/dashboard");
+        window.location.href = "/company/dashboard";
       } else {
-        navigate("/");
+        window.location.href = "/feed";
       }
 
     } catch (err) {
@@ -157,11 +158,19 @@ export default function Login() {
 
         {/* LOGIN BUTTON */}
         <button
-          className="btn btn-primary w-100"
+          className="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
           onClick={handleLogin}
           disabled={loading}
+          style={{ height: "45px" }}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? (
+            <>
+              <SpinnerLoader size="1.5rem" color="#ffffff" />
+              <span>Logging in...</span>
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
 
         <p className="text-center mt-3">

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../utils/api";
-import "./CreatePost.css";   // 👈 add this
+import SpinnerLoader from "../components/SpinnerLoader";
+import "./CreatePost.css";
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ export default function CreatePost() {
       return;
     }
 
+    setLoading(true);
+
     try {
       const res = await api.post("/content/image_post", {
         caption,
@@ -69,27 +72,8 @@ export default function CreatePost() {
   return (
     <>
 
-      {/* 🔥 LOADER */}
-      {loading && (
-        <div className="d-flex justify-content-center mt-5">
-          <div className="liquid-loader">
-            <div className="loading-text">
-              Loading
-              <span className="dot">.</span>
-              <span className="dot">.</span>
-              <span className="dot">.</span>
-            </div>
-
-            <div className="loader-track">
-              <div className="liquid-fill"></div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* FORM */}
-      {!loading && (
-        <div className="container mt-5 w-50">
+      <div className={`container mt-5 w-50 ${loading ? "opacity-50" : ""}`} style={{ pointerEvents: loading ? "none" : "auto" }}>
 
           <h4>Create Post</h4>
 
@@ -134,14 +118,22 @@ export default function CreatePost() {
 
           {/* BUTTON */}
           <button
-            className="btn btn-primary w-100"
+            className="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
             onClick={handlePost}
+            disabled={loading}
+            style={{ height: "45px" }}
           >
-            Post
+            {loading ? (
+              <>
+                <SpinnerLoader size="1.5rem" color="#ffffff" />
+                <span>Publishing...</span>
+              </>
+            ) : (
+              "Post"
+            )}
           </button>
 
         </div>
-      )}
 
     </>
   );

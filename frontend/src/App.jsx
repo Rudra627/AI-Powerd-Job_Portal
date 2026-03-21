@@ -2,11 +2,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import Layout from "./layouts/MainLayout";
 import CompanyLayout from "./layouts/CompanyLayout";
-
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
+import Notification from "./pages/Notification";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import JobDetails from "./pages/JobDetails";
@@ -41,7 +41,7 @@ function App() {
         <Routes>
 
           {/* ================= PUBLIC / LANDING ================= */}
-          <Route path="/" element={token ? <Navigate to="/feed" /> : <Landing />} />
+          <Route path="/" element={token ? <Navigate to="/feed" /> : <Login />} />
 
           {/* ================= USER LAYOUT ================= */}
           <Route element={<Layout />}>
@@ -69,6 +69,7 @@ function App() {
           {/* ================= AUTH ROUTES ================= */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/notifications" element={<Notification />} />
 
         </Routes>
       </Router>

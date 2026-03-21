@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../utils/api";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -163,11 +164,19 @@ export default function Signup() {
         </div>
 
         <button
-          className="btn btn-primary w-100"
+          className="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
           onClick={handleSignup}
           disabled={loading}
+          style={{ height: "45px" }}
         >
-          {loading ? "Creating account..." : "Signup"}
+          {loading ? (
+            <>
+              <SpinnerLoader size="1.5rem" color="#ffffff" />
+              <span>Creating account...</span>
+            </>
+          ) : (
+            "Signup"
+          )}
         </button>
 
         <p className="text-center mt-3 mb-0">

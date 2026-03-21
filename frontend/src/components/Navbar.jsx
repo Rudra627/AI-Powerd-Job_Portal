@@ -8,7 +8,8 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login");
+    localStorage.removeItem("role");
+    window.location.href = "/login";
   };
 
   return (
@@ -47,7 +48,7 @@ export default function Navbar() {
         </Link>
 
         {/* USER SECTION (ONLY IF LOGGED IN) */}
-        {token && user ? (
+        {token ? (
           <>
             <Link to="/create-post" className="btn btn-outline-primary btn-sm">
               Create Post
@@ -60,7 +61,7 @@ export default function Navbar() {
                 data-bs-toggle="dropdown"
               >
                 <i className="bi bi-person-circle fs-4"></i>
-                <span className="fw-semibold">{user.name}</span>
+                <span className="fw-semibold">{user?.name || "Profile"}</span>
               </button>
 
               <ul className="dropdown-menu dropdown-menu-end">

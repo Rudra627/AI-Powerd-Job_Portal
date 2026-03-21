@@ -25,7 +25,6 @@ export default function CompanyLayout() {
         <CompanySidebar />
       </div>
 
-      {/* Page Content */}
       <div
         className="flex-grow-1"
         style={{
