@@ -10,16 +10,17 @@ export default function CompanyLayout() {
       {/* Sidebar */}
       <div
         style={{
-          width: "100%",
+          width: "250px",
           position: "fixed",
           left: 0,
           top: 0,
           height: "100vh",
           background: "#ffffff",
-          borderRight: "1px solid #ddd"
+          borderRight: "1px solid #ddd",
+          zIndex: 1000
         }}
       >
-        <div style={{ height: "70px",width: "100%" }}>
+        <div style={{ height: "70px", width: "100%" }}>
           <Navbar />
         </div>
         <CompanySidebar />

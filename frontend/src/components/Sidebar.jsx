@@ -6,7 +6,7 @@ export default function Sidebar() {
     { path: "/jobs", label: "Jobs", icon: "bi-briefcase" },
     { path: "/create-post", label: "Create Post", icon: "bi-plus-square" },
     { path: "/coding-problem", label: "Problem set", icon: "bi-link-45deg" },
-    { path: "/contact", label: "Contact", icon: "bi-telephone" }
+    {path:"/personal-assistant",label:"AI Interviewer",icon:"bi-robot"}
   ];
 
   return (

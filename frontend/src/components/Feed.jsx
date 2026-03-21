@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import api from "../utils/api";
 
@@ -12,6 +12,7 @@ export default function Feed() {
   const [openComments, setOpenComments] = useState(null);
   const [comments, setComments] = useState({});
   const [commentText, setCommentText] = useState("");
+  const isFetching = useRef(false);
 
   useEffect(() => {
     loadPosts();
@@ -20,22 +21,29 @@ export default function Feed() {
   /* ================= LOAD POSTS ================= */
 
   const loadPosts = async () => {
+    if (isFetching.current) return;
     try {
+      isFetching.current = true;
       setLoading(true);
 
       const res = await api.get(`/content/view_posts?page=${page}&limit=5`);
       const data = res.data;
 
       if (data.posts) {
-        setPosts(prev => [...prev, ...data.posts]);
+        setPosts(prev => {
+          const existingIds = new Set(prev.map(p => p.id));
+          const newPosts = data.posts.filter(p => !existingIds.has(p.id));
+          return [...prev, ...newPosts];
+        });
         setPage(prev => prev + 1);
       }
 
     } catch {
       toast.error("Failed to load posts");
+    } finally {
+      setLoading(false);
+      isFetching.current = false;
     }
-
-    setLoading(false);
   };
 
   /* ================= LIKE ================= */

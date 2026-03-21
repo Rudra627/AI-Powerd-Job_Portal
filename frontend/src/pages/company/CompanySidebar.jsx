@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function CompanySidebar() {
 
   const menu = [
-    { path: "/", label: "Home", icon: "bi-speedometer2" },
+    { path: "/company/", label: "Home", icon: "bi-speedometer2" },
     { path: "/company/profile", label: "Company Profile", icon: "bi-building" },
     { path: "/company/post-job", label: "Post Job", icon: "bi-plus-circle" },
     { path: "/company/company_jobs", label: "My Jobs", icon: "bi-briefcase" },

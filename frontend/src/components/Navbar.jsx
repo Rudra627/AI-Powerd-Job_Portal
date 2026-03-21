@@ -4,6 +4,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
+  const role = localStorage.getItem("role") || user?.role;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -22,12 +23,11 @@ export default function Navbar() {
         </button> */}
 
         <h4 className="text-primary fw-bold mb-0">JobPortal</h4>
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
       </div>
 
       {/* RIGHT */}
       <div className="ms-auto d-flex align-items-center gap-4">
-          <Link to="/" className="text-dark text-decoration-none text-center">
+          <Link to={role === "company" ? "/company/" : "/"} className="text-dark text-decoration-none text-center">
           <i className="bi bi-house-fill fs-5"></i>
           <div style={{ fontSize: "12px" }}>Home</div>
         </Link>
@@ -42,7 +42,7 @@ export default function Navbar() {
         >
           <i className="bi bi-bell-fill fs-5"></i>
           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            3
+            
           </span>
           <div style={{ fontSize: "12px" }}>Notifications</div>
         </Link>
@@ -50,9 +50,7 @@ export default function Navbar() {
         {/* USER SECTION (ONLY IF LOGGED IN) */}
         {token ? (
           <>
-            <Link to="/create-post" className="btn btn-outline-primary btn-sm">
-              Create Post
-            </Link>
+          
 
             {/* USER DROPDOWN */}
             <div className="dropdown">

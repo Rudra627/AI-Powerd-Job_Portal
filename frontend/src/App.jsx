@@ -16,6 +16,7 @@ import Practice from "./pages/dsa/Practice";
 // import Practice from "./pages/dsa/Practice";
 import ProblemList from "./pages/dsa/ProblemList";
 import SolveProblem from "./pages/dsa/SolveProblem";
+import PersonalAssistant from "./pages/PersonalAssistant";
 
 import CompanyDashboard from "./pages/company/CompanyDashboard.jsx";
 import CompanyProfile from "./pages/company/CompanyProfile.jsx";
@@ -28,6 +29,7 @@ import { ToastContainer } from "react-toastify";
 
 function App() {
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   return (
     <>
@@ -41,7 +43,7 @@ function App() {
         <Routes>
 
           {/* ================= PUBLIC / LANDING ================= */}
-          <Route path="/" element={token ? <Navigate to="/feed" /> : <Login />} />
+          <Route path="/" element={token ? (role === "company" ? <Navigate to="/company/" /> : <Navigate to="/feed" />) : <Login />} />
 
           {/* ================= USER LAYOUT ================= */}
           <Route element={<Layout />}>
@@ -54,6 +56,7 @@ function App() {
             <Route path="/coding-problem" element={<Practice />} />
             <Route path="/practice" element={<Practice />} />
             <Route path="/solveproblem" element={<SolveProblem />} />
+            <Route path="/personal-assistant" element={<PersonalAssistant />} />
           </Route>
 
       

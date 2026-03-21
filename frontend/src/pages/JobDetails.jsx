@@ -123,12 +123,13 @@ export default function JobDetails() {
         <div className="card border-0 shadow-sm p-4 mb-4">
           <div className="d-flex justify-content-between align-items-start border-bottom pb-4 mb-4 flex-wrap gap-3">
             <div>
-              <h2 className="fw-bold text-dark mb-2">{job.title}</h2>
+              <h2 className="fw-bold text-dark mb-2">{job.title} </h2>
+              <h6>{job.status && <span className="badge bg-info text-dark px-3 py-2">Status: <span className="text-capitalize">{job.status}</span></span>}</h6>
               <h6 className="text-secondary mb-3">{job.full_name ? `Company: ${job.full_name}` : `Company ID: ${job.company_id}`}</h6>
               <div className="d-flex flex-wrap gap-2 mt-2">
                 {job.employment_type && <span className="badge bg-primary px-3 py-2 text-capitalize">{job.employment_type?.replace('-', ' ')}</span>}
                 {job.is_remote === 'yes' && <span className="badge bg-success px-3 py-2 text-uppercase">Remote</span>}
-                {job.status && <span className="badge bg-info text-dark px-3 py-2">Status: <span className="text-capitalize">{job.status}</span></span>}
+               
               </div>
             </div>
             
