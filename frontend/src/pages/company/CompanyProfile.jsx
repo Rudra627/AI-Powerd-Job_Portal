@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import "../../styles/Profile.css";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 export default function CompanyProfile() {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ export default function CompanyProfile() {
     reader.readAsDataURL(file);
   };
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
   if (!company) return <p className="text-center mt-5">No company profile found</p>;
 
   return (

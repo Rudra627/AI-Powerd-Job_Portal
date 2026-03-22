@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Navbar from "../components/Navbar";
 import api from "../utils/api";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 export default function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -35,7 +36,7 @@ export default function Jobs() {
         <h3 className="mb-4 text-primary">Job Openings</h3>
         
         {loading ? (
-          <div>Loading jobs...</div>
+          <div className="text-center mt-5 pt-4"><SpinnerLoader size="3rem" color="#0d6efd" /></div>
         ) : jobs.length === 0 ? (
           <p>No open jobs available at the moment.</p>
         ) : (

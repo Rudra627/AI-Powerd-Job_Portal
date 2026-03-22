@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 const API = import.meta.env.VITE_API_BASE_URL;
 
@@ -147,7 +148,7 @@ export default function Profile() {
     reader.readAsDataURL(file);
   };
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
   if (!profile) return <p className="text-center mt-5">No profile found</p>;
 
   return (

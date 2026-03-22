@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 export default function JobApplicants() {
   const { jobId } = useParams();
@@ -132,7 +133,7 @@ export default function JobApplicants() {
     );
   };
 
-  if (loading) return <p className="text-center mt-5">Loading applicants...</p>;
+  if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
 
   return (
     <div className="container mt-4">
@@ -201,7 +202,10 @@ export default function JobApplicants() {
                   disabled={analyzingId === (a.application_id || a.id)}
                 >
                   {analyzingId === (a.application_id || a.id) ? (
-                    <><span className="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>Analyzing...</>
+                    <div className="d-flex align-items-center justify-content-center gap-2">
+                       <SpinnerLoader size="1rem" color="#ffffff" />
+                       <span>Analyzing...</span>
+                    </div>
                   ) : (
                     <><i className="bi bi-robot me-1"></i> Analyse Resume</>
                   )}

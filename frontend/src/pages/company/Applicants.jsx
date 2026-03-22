@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 export default function Applicants() {
   const [apps, setApps] = useState([]);
@@ -30,7 +31,7 @@ export default function Applicants() {
     }
   };
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
 
   return (
     <div className="container mt-4">

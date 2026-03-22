@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../utils/api";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
@@ -60,10 +61,11 @@ export default function VerifyEmail() {
             <p className="text-muted mt-2">
               A verification link has been sent to:
               <br />
-              <strong>{email}</strong>
             </p>
 
-            <div className="spinner-border  my-3"></div>
+            <div className="my-3 d-flex justify-content-center">
+              <SpinnerLoader size="2.5rem" color="#0d6efd" />
+            </div>
 
             <p className="small text-muted">
               Waiting for verification...

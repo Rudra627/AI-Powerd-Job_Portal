@@ -46,7 +46,7 @@ export default function JobDetails() {
     fetchJob();
   }, [id]);
 
-  if (loading) return <div className="container mt-5 text-center"><div className="spinner-border text-primary" role="status"></div></div>;
+  if (loading) return <div className="container mt-5 text-center"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
   if (!job || job.error) return <div className="container mt-5 text-center text-danger"><h4>Job not found</h4></div>;
 
   const skillsArray = typeof job.skill_need === 'string' && job.skill_need 

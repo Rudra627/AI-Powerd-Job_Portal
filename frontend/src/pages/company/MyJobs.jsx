@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 export default function MyJobs() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function MyJobs() {
     }
   };
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
 
   return (
     <div className="container mt-4">
