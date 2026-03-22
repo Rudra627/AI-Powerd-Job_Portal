@@ -129,7 +129,6 @@ export default function JobDetails() {
               <div className="d-flex flex-wrap gap-2 mt-2">
                 {job.employment_type && <span className="badge bg-primary px-3 py-2 text-capitalize">{job.employment_type?.replace('-', ' ')}</span>}
                 {job.is_remote === 'yes' && <span className="badge bg-success px-3 py-2 text-uppercase">Remote</span>}
-               
               </div>
             </div>
             
@@ -260,7 +259,7 @@ export default function JobDetails() {
           </div>
         </div>
       </div>
-      
+
     </>
   );
 }

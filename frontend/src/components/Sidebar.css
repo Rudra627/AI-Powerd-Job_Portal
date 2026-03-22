@@ -1,9 +1,9 @@
 .sidebar-fixed {
   position: fixed;
-  top: 5;
+  top: 70px;
   left: 0;
   width: 250px;
-  height: 100vh;
+  height: calc(100vh - 70px);
   overflow-y: auto;
   z-index: 1000;
 }

@@ -27,66 +27,71 @@ export default function Navbar() {
 
       {/* RIGHT */}
       <div className="ms-auto d-flex align-items-center gap-4">
-          <Link to={role === "company" ? "/company/" : "/"} className="text-dark text-decoration-none text-center">
+        <Link to={role === "company" ? "/company/" : "/"} className="text-dark text-decoration-none text-center">
           <i className="bi bi-house-fill fs-5"></i>
           <div style={{ fontSize: "12px" }}>Home</div>
         </Link>
-        <Link to="/messages" className="text-dark text-decoration-none text-center">
-          <i className="bi bi-chat-dots-fill fs-5"></i>
-          <div style={{ fontSize: "12px" }}>Messaging</div>
-        </Link>
 
-        <Link
-          to="/notifications"
-          className="text-dark text-decoration-none text-center position-relative"
-        >
-          <i className="bi bi-bell-fill fs-5"></i>
-          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            
-          </span>
-          <div style={{ fontSize: "12px" }}>Notifications</div>
-        </Link>
+        {role === "company" ? (
+          <>
+            <Link to="/company/post-job" className="text-dark text-decoration-none text-center">
+              <i className="bi bi-plus-circle-fill fs-5"></i>
+              <div style={{ fontSize: "12px" }}>Post Job</div>
+            </Link>
+            <Link to="/company/company_jobs" className="text-dark text-decoration-none text-center">
+              <i className="bi bi-briefcase-fill fs-5"></i>
+              <div style={{ fontSize: "12px" }}>My Jobs</div>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/messages" className="text-dark text-decoration-none text-center">
+              <i className="bi bi-chat-dots-fill fs-5"></i>
+              <div style={{ fontSize: "12px" }}>Messaging</div>
+            </Link>
+            <Link to="/notifications" className="text-dark text-decoration-none text-center position-relative">
+              <i className="bi bi-bell-fill fs-5"></i>
+              <div style={{ fontSize: "12px" }}>Notifications</div>
+            </Link>
+          </>
+        )}
 
         {/* USER SECTION (ONLY IF LOGGED IN) */}
         {token ? (
-          <>
-          
+          <div className="dropdown">
+            <button
+              className="btn btn-light dropdown-toggle d-flex align-items-center gap-2"
+              data-bs-toggle="dropdown"
+            >
+              <i className="bi bi-person-circle fs-4"></i>
+              <span className="fw-semibold">{user?.name || "Profile"}</span>
+            </button>
 
-            {/* USER DROPDOWN */}
-            <div className="dropdown">
-              <button
-                className="btn btn-light dropdown-toggle d-flex align-items-center gap-2"
-                data-bs-toggle="dropdown"
-              >
-                <i className="bi bi-person-circle fs-4"></i>
-                <span className="fw-semibold">{user?.name || "Profile"}</span>
-              </button>
-
-              <ul className="dropdown-menu dropdown-menu-end">
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li>
+                <Link className="dropdown-item" to={role === "company" ? "/company/profile" : "/profile"}>
+                  {role === "company" ? "Company Profile" : "My Profile"}
+                </Link>
+              </li>
+              {role === "company" && (
                 <li>
-                  <Link className="dropdown-item" to="/profile">
-                    My Profile
+                  <Link className="dropdown-item" to="/company/dashboard">
+                    Dashboard
                   </Link>
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="/">
-                    My Posts
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <button className="dropdown-item text-danger" onClick={handleLogout}>
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </>
+              )}
+              <li><hr className="dropdown-divider" /></li>
+              <li>
+                <button className="dropdown-item text-danger" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
         ) : (
           <Link to="/login" className="btn btn-primary btn-sm">
             Login
           </Link>
-          
         )}
       </div>
     </nav>

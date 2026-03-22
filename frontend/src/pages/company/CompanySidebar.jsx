@@ -12,12 +12,15 @@ export default function CompanySidebar() {
 
   return (
     <div
-      className="company-sidebar bg-white border-end vh-100 p-3"
+      className="company-sidebar bg-white border-end p-3"
       style={{
         width: "250px",
         position: "fixed",
-        top: "70px",        // adjust if you have navbar
-        left: 0
+        top: "70px",
+        height: "calc(100vh - 70px)",
+        left: 0,
+        overflowY: "auto",
+        zIndex: 1000
       }}
     >
 

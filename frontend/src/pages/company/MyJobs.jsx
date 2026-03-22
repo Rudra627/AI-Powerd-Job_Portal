@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../utils/api";
 
 export default function MyJobs() {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,17 +16,15 @@ export default function MyJobs() {
     try {
       const res = await api.get("/company/company_jobs");
       const data = res.data;
+      console.log("company_jobs API response:", data);
 
-      // API returns { "res": [...] } or { "res": "No Job Found" }
-      if (data.res && Array.isArray(data.res)) {
-        setJobs(data.res);
-      } else if (data.jobs && Array.isArray(data.jobs)) {
-        setJobs(data.jobs);
-      } else {
-        setJobs([]);
-      }
-    } catch {
-      toast.error("Failed to load jobs");
+      if (Array.isArray(data)) setJobs(data);
+      else if (data.res && Array.isArray(data.res)) setJobs(data.res);
+      else if (data.jobs && Array.isArray(data.jobs)) setJobs(data.jobs);
+      else setJobs([]);
+    } catch (err) {
+      console.error("company_jobs error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.error || "Failed to load jobs");
     } finally {
       setLoading(false);
     }
@@ -71,11 +71,12 @@ export default function MyJobs() {
                   )}
                 </div>
               </div>
-              <div className="d-flex gap-2">
-                <button className="btn btn-outline-primary btn-sm">
-                  <i className="bi bi-people me-1"></i> View Applicants
-                </button>
-              </div>
+              <button
+                className="btn btn-outline-primary btn-sm"
+                onClick={() => navigate(`/company/applications/${j.id}`)}
+              >
+                <i className="bi bi-people me-1"></i> View Applicants
+              </button>
             </div>
           </div>
         </div>

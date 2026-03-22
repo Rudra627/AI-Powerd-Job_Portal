@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import api from "../../utils/api";
 import SpinnerLoader from "../../components/SpinnerLoader";
-
-const API = import.meta.env.VITE_API_BASE_URL;
 
 export default function PostJob() {
 
@@ -13,7 +12,7 @@ export default function PostJob() {
     title: "",
     description: "",
     skill_need: "",
-    employment_type: "[full-time]",
+    employment_type: "full-time",
     experience_min: "",
     salary_min: "",
     salary_max: "",
@@ -39,22 +38,8 @@ export default function PostJob() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API}/company/post_job`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        },
-        body: JSON.stringify(job)
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error(data.error || "Failed to post job");
-        setLoading(false);
-        return;
-      }
+      const res = await api.post("/company/post_job", job);
+      const data = res.data;
 
       toast.success("Job posted successfully 🚀");
 
@@ -73,7 +58,8 @@ export default function PostJob() {
       });
 
     } catch (err) {
-      toast.error("Server error");
+      const errData = err.response?.data || {};
+      toast.error(errData.error || errData.message || "Failed to post job");
     } finally {
       setLoading(false);
     }
