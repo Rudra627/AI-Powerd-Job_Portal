@@ -22,6 +22,7 @@ export default function Feed() {
 
   const loadPosts = async () => {
     if (isFetching.current) return;
+
     try {
       isFetching.current = true;
       setLoading(true);
@@ -53,11 +54,13 @@ export default function Feed() {
       const res = await api.post("/content/like_post", { post_id: id });
       const data = res.data;
 
-      setPosts(posts.map(p =>
-        p.id === id
-          ? { ...p, like_count: data.like_count }
-          : p
-      ));
+      setPosts(prev =>
+        prev.map(p =>
+          p.id === id
+            ? { ...p, like_count: data.like_count }
+            : p
+        )
+      );
 
     } catch {
       toast.error("Like failed");
@@ -80,7 +83,11 @@ export default function Feed() {
     try {
       const res = await api.post("/content/view_comments", { post_id: id });
       const data = res.data;
-      setComments(prev => ({ ...prev, [id]: data.comments || [] }));
+
+      setComments(prev => ({
+        ...prev,
+        [id]: data.comments || []
+      }));
 
     } catch {
       toast.error("Failed to load comments");
@@ -103,6 +110,7 @@ export default function Feed() {
       toast.error("Comment failed");
     }
   };
+console.log(posts.full_name)
   return (
     <div className="container mt-4" style={{ maxWidth: "600px" }}>
 
@@ -116,33 +124,50 @@ export default function Feed() {
 
           {/* AUTHOR */}
           <div className="d-flex align-items-center p-3">
-            <img
-              src={post.user_photo}
-              width="45"
-              height="45"
-              className="rounded-circle border me-2"
-              alt=""
-            />
-            <strong>{post.full_name}</strong>
+
+            {post.profile_pic ? (
+              <img
+                src={post.profile_pic}
+                alt=""
+                className="rounded-circle me-2"
+                style={{ width: "40px", height: "40px", objectFit: "cover" }}
+              />
+            ) : (
+              <div
+                className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2 fw-bold"
+                style={{ width: "40px", height: "40px", fontSize: "1.1rem" }}
+              >
+                {(post.full_name || post.username || "?")
+                  .charAt(0)
+                  .toUpperCase()}
+              </div>
+            )}
+
+            <strong className="text-dark">
+              {post.full_name || post.username || "User #" + post.user_id}
+            </strong>
+
           </div>
 
           {/* IMAGE */}
-          {post.photo_url && (
+          {post.photo_url && post.photo_url !== "null" && (
             <img
               src={post.photo_url}
               className="w-100"
               style={{ maxHeight: "420px", objectFit: "cover" }}
-              alt=""
+              alt="post"
             />
           )}
 
           {/* BODY */}
           <div className="p-3">
 
-            <p className="mb-2">{post.caption}</p>
+            {post.caption && (
+              <p className="mb-2">{post.caption}</p>
+            )}
 
             <div className="text-muted small mb-2">
-              👍 {post.like_count} &nbsp; 💬 {post.comment_count}
+              👍 {post.like_count || 0} &nbsp; 💬 {post.comment_count || 0}
             </div>
 
             {/* ACTIONS */}
@@ -196,8 +221,8 @@ export default function Feed() {
                     className="bg-light rounded p-2 mb-1 small"
                   >
                     <strong className="text-primary">
-                      {c.full_name}
-                    </strong>: {c.comment_text}
+                      {c.full_name || c.username || "User"}
+                    </strong>: {c.comment_text || c.comment}
                   </div>
                 ))}
 
@@ -212,7 +237,6 @@ export default function Feed() {
       ))}
 
       {/* LOAD MORE */}
-
       <button
         onClick={loadPosts}
         className="btn btn-outline-primary w-100"

@@ -80,6 +80,13 @@ export default function Navbar() {
                   </Link>
                 </li>
               )}
+              {role === "admin" && (
+                <li>
+                  <Link className="dropdown-item fw-bold text-primary" to="/admin/dashboard">
+                    Admin Panel
+                  </Link>
+                </li>
+              )}
               <li><hr className="dropdown-divider" /></li>
               <li>
                 <button className="dropdown-item text-danger" onClick={handleLogout}>

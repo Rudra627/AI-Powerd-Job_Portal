@@ -83,7 +83,7 @@ export default function Login() {
       /* ================= ROLE REDIRECT ================= */
 
       if (data.role === "company") {
-        window.location.href = "/company/dashboard";
+        window.location.href = "/company/";
       } else {
         window.location.href = "/feed";
       }

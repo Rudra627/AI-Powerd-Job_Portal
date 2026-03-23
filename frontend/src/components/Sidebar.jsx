@@ -5,7 +5,7 @@ export default function Sidebar() {
     { path: "/profile", label: "Profile", icon: "bi-person" },
     { path: "/jobs", label: "Jobs", icon: "bi-briefcase" },
     { path: "/create-post", label: "Create Post", icon: "bi-plus-square" },
-    { path: "/coding-problem", label: "Problem set", icon: "bi-link-45deg" },
+    { path: "/mock-interview", label: "Mock Interview", icon: "bi-link-45deg" },
     {path:"/personal-assistant",label:"AI Interviewer",icon:"bi-robot"}
   ];
 

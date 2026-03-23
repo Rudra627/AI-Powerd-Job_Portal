@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import "../../components/Sidebar.css";
 
 export default function CompanySidebar() {
 
@@ -7,22 +8,11 @@ export default function CompanySidebar() {
     { path: "/company/profile", label: "Company Profile", icon: "bi-building" },
     { path: "/company/post-job", label: "Post Job", icon: "bi-plus-circle" },
     { path: "/company/company_jobs", label: "My Jobs", icon: "bi-briefcase" },
-    { path: "/company/applicants", label: "Applicants", icon: "bi-people" }
+    {path:"/company/post",label:"Posts",icon:"bi-people"}
   ];
 
   return (
-    <div
-      className="company-sidebar bg-white border-end p-3"
-      style={{
-        width: "250px",
-        position: "fixed",
-        top: "70px",
-        height: "calc(100vh - 70px)",
-        left: 0,
-        overflowY: "auto",
-        zIndex: 1000
-      }}
-    >
+    <div className="sidebar-fixed bg-white border-end p-3">
 
       <h5 className="text-primary text-center mb-4">
         Company Panel
@@ -32,8 +22,9 @@ export default function CompanySidebar() {
         <NavLink
           key={item.path}
           to={item.path}
+          end={item.path === "/company/"}
           className={({ isActive }) =>
-            `d-flex align-items-center gap-3 px-4 py-2 mb-2 rounded-pill
+            `d-flex align-items-center gap-3 px-4 py-3 mb-2 rounded-pill 
             ${isActive ? "bg-primary text-white" : "text-dark"}`
           }
           style={{ textDecoration: "none" }}

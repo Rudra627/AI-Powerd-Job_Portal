@@ -262,11 +262,70 @@ export default function JobApplicants() {
                 <button type="button" className="btn-close btn-close-white" onClick={() => setAnalysisModal(null)}></button>
               </div>
               <div className="modal-body p-4 bg-light">
-                {/* 1. AI Analysis Result */}
+                {/* 1. Comparison Section */}
+                <div className="row g-4 mb-4">
+                  {/* Job Requirements */}
+                  <div className="col-md-6">
+                    <div className="card h-100 shadow-sm border-0 border-start border-4 border-warning">
+                      <div className="card-body p-4">
+                        <h5 className="fw-bold mb-3 text-warning-emphasis d-flex align-items-center">
+                          <i className="bi bi-briefcase me-2"></i>Job Requirements
+                        </h5>
+                        <ul className="list-group list-group-flush bg-transparent">
+                          <li className="list-group-item bg-transparent px-0 border-0">
+                            <strong><i className="bi bi-code-square me-2"></i>Required Skills:</strong>
+                            <div className="mt-2 d-flex flex-wrap gap-1">
+                              {analysisModal.requiredSkill ? analysisModal.requiredSkill.split(',').map((skill, i) => (
+                                <span key={i} className="badge bg-light text-dark border">{skill.trim()}</span>
+                              )) : <span className="text-muted">Not specified</span>}
+                            </div>
+                          </li>
+                          <li className="list-group-item bg-transparent px-0 border-0">
+                            <strong><i className="bi bi-clock-history me-2"></i>Min Experience:</strong>
+                            <div className="mt-1 text-primary-emphasis fw-semibold">
+                              {analysisModal.experienceMin || '0'} Years
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Applicant Profiling */}
+                  <div className="col-md-6">
+                    <div className="card h-100 shadow-sm border-0 border-start border-4 border-success">
+                      <div className="card-body p-4">
+                        <h5 className="fw-bold mb-3 text-success d-flex align-items-center">
+                          <i className="bi bi-person-check me-2"></i>Applicant Condition
+                        </h5>
+                        <ul className="list-group list-group-flush bg-transparent">
+                          <li className="list-group-item bg-transparent px-0 border-0">
+                            <strong><i className="bi bi-mortarboard me-2"></i>Analysis Profile:</strong>
+                            <div className="mt-2">
+                               <span className="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
+                                 {analysisModal.applicant.name || 'Applicant'}
+                               </span>
+                            </div>
+                          </li>
+                          <li className="list-group-item bg-transparent px-0 border-0">
+                             <strong>Match Summary:</strong>
+                             <div className="mt-2 fw-medium text-dark small">
+                                {analysisModal.result && analysisModal.result.toLowerCase().includes('recommend') 
+                                  ? '✅ System recommends this applicant based on criteria.' 
+                                  : '⚠️ Review analysis insights for fitment details.'}
+                             </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. AI Analysis Insights (The full text) */}
                 <div className="card shadow-sm border-0 border-start border-4 border-primary">
                   <div className="card-body p-4">
                     <h5 className="fw-bold mb-4 pb-2 text-primary border-bottom">
-                      <i className="bi bi-stars me-2"></i>Analysis Insights
+                      <i className="bi bi-stars me-2"></i>Full Analysis Details
                     </h5>
                     {renderAnalysisResult(analysisModal.result)}
                   </div>

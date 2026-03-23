@@ -2,8 +2,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import Layout from "./layouts/MainLayout";
 import CompanyLayout from "./layouts/CompanyLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import Home from "./pages/Home";
-import Landing from "./pages/Landing";
+
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import Viewjobs from "./pages/Viewjobs"; 
@@ -23,6 +24,9 @@ import PostJob from "./pages/company/PostJob.jsx";
 import MyJobs from "./pages/company/MyJobs.jsx";
 import Applicants from "./pages/company/Applicants.jsx";
 import JobApplicants from "./pages/company/JobApplicants.jsx";
+
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import AdminCompanies from "./pages/admin/AdminCompanies.jsx";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -54,10 +58,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
-            <Route path="/coding-problem" element={<Practice />} />
-            <Route path="/practice" element={<Practice />} />
-            <Route path="/solveproblem" element={<SolveProblem />} />
-          </Route>
+                    </Route>
 
       
 <Route element={<CompanyLayout />}>
@@ -66,14 +67,18 @@ function App() {
   <Route path="/company/profile" element={<CompanyProfile />} />
   <Route path="/company/post-job" element={<PostJob />} />
   <Route path="/company/company_jobs" element={<MyJobs />} />
+  <Route path="/company/post" element={<CreatePost />} />
   <Route path="/company/applications/:jobId" element={<JobApplicants />} />
   <Route path="/company/applicants" element={<Applicants />} />
 </Route>
 
-         
+{/* ================= ADMIN LAYOUT ================= */}
+<Route element={<AdminLayout />}>
+  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+  <Route path="/admin/companies" element={<AdminCompanies />} />
+</Route>         
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
         </Routes>
       </Router>
     </>
