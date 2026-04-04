@@ -19,13 +19,13 @@ export default function JobPost({ post }) {
           ))}
         </div>
 
-        {/* LIKE & COMMENT COUNT */}
+     
         <div className="d-flex justify-content-between text-muted small mb-2">
           <span>{post.likes} Likes</span>
           <span>{post.comments} Comments</span>
         </div>
 
-        {/* ACTIONS */}
+      
         <div className="d-flex justify-content-between">
           <button className="btn btn-outline-primary btn-sm">
             👍 Like
