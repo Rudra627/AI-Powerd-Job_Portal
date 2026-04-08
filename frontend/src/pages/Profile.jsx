@@ -18,6 +18,8 @@ export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [academic, setAcademic] = useState(null);
   const [skills, setSkills] = useState([]);
+  const [skillInput, setSkillInput] = useState("");
+  const [skillLoading, setSkillLoading] = useState(false);
   const [edit, setEdit] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("about");
@@ -92,6 +94,79 @@ export default function Profile() {
     save("/seeker/per_info", getPersonalPayload(), "Personal info updated");
   };
 
+  const addSkill = async () => {
+    const newSkill = skillInput.trim();
+    if (!newSkill) {
+      toast.error("Enter a skill before adding");
+      return;
+    }
+
+    const exists = skills.some((item) => {
+      const value = typeof item === "string" ? item : item.skill || "";
+      return value.toLowerCase() === newSkill.toLowerCase();
+    });
+
+    if (exists) {
+      toast.error("Skill already added");
+      setSkillInput("");
+      return;
+    }
+
+    setSkillLoading(true);
+    try {
+      const res = await fetch(`${API}/seeker/add_skill`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ skill: newSkill })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || data.message || "Failed to add skill");
+        return;
+      }
+
+      toast.success("Skill added successfully");
+      setSkillInput("");
+      fetchProfile();
+    } catch (err) {
+      console.error(err);
+      toast.error("Server error while adding skill");
+    } finally {
+      setSkillLoading(false);
+    }
+  };
+
+  const removeSkill = async (index) => {
+    const skillToRemove = skills[index];
+    const skillId = typeof skillToRemove === 'object' ? skillToRemove.id : null;
+
+    if (!skillId) {
+      setSkills((prev) => prev.filter((_, i) => i !== index));
+      toast.success("Skill removed");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API}/seeker/delete_skill/${skillId}`, {
+        method: "DELETE",
+        headers
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || data.message || "Failed to delete skill");
+        return;
+      }
+
+      setSkills((prev) => prev.filter((_, i) => i !== index));
+      toast.success("Skill deleted successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Server error while deleting skill");
+    }
+  };
+
   const changePhoto = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -152,7 +227,9 @@ export default function Profile() {
   if (!profile) return <p className="text-center mt-5">No profile found</p>;
 
   return (
-    <div className="container mt-4 mb-5">
+    <div className="container-fluid p-responsive" style={{ maxWidth: "1360px", margin: "0 auto" }}>
+
+
       <div className="profile-container">
         
         {/* LEFT SIDEBAR */}
@@ -177,13 +254,45 @@ export default function Profile() {
 
           <div className="profile-sidebar-section">
             <div className="profile-sidebar-title">Skills</div>
-            <div className="d-flex flex-wrap gap-1">
-              {skills.map((s, i) => (
-                <span key={i} className="skill-tag text-capitalize">
-                  {typeof s === 'object' ? `${s.skill}${s.proficiency ? ` (${s.proficiency})` : ''}` : s}
-                </span>
-              ))}
-              {skills.length === 0 && <small className="text-muted">No skills added</small>}
+            <div className="d-flex flex-wrap gap-1 mb-3">
+              {skills.length > 0 ? (
+                skills.map((s, i) => {
+                  const label = typeof s === 'object' ? `${s.skill}${s.proficiency ? ` (${s.proficiency})` : ''}` : s;
+                  const skillId = typeof s === 'object' ? s.id : i;
+                  return (
+                    <span key={skillId} className="skill-tag text-capitalize d-inline-flex align-items-center">
+                      {label}
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-link text-danger p-0 ms-2"
+                        onClick={() => removeSkill(i)}
+                        style={{ lineHeight: 1 }}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  );
+                })
+              ) : (
+                <small className="text-muted">No skills added</small>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Add a skill"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addSkill()}
+                  disabled={skillLoading}
+                />
+                <button type="button" className="btn btn-outline-primary" onClick={addSkill} disabled={skillLoading}>
+                  {skillLoading ? 'Adding...' : 'Add'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

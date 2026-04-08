@@ -99,7 +99,8 @@ export default function Feed() {
   /* ================= UI ================= */
 
   return (
-    <div className="container mt-4" style={{ maxWidth: "600px" }}>
+    <div className="container-fluid p-responsive" style={{ maxWidth: "800px", margin: "0 auto" }}>
+
       {posts.map(post => (
 
         <div key={post.id} className="card mb-3 shadow-sm">

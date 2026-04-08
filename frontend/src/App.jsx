@@ -17,7 +17,8 @@ import Practice from "./pages/dsa/Practice";
 // import Practice from "./pages/dsa/Practice";
 import ProblemList from "./pages/dsa/ProblemList";
 import SolveProblem from "./pages/dsa/SolveProblem";
-
+import PersonalAssistant from './pages/PersonalAssistant';
+import NotFound from './pages/NotFound';
 import CompanyDashboard from "./pages/company/CompanyDashboard.jsx";
 import CompanyProfile from "./pages/company/CompanyProfile.jsx";
 import PostJob from "./pages/company/PostJob.jsx";
@@ -47,7 +48,22 @@ function App() {
         <Routes>
 
           {/* ================= PUBLIC / LANDING ================= */}
-          <Route path="/" element={token ? (role === "company" ? <Navigate to="/company/" /> : <Navigate to="/feed" />) : <Login />} />
+          <Route
+            path="/"
+            element={
+              token ? (
+                role === "admin" ? (
+                  <Navigate to="/admin/dashboard" />
+                ) : role === "company" ? (
+                  <Navigate to="/company/" />
+                ) : (
+                  <Navigate to="/feed" />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
           {/* ================= USER LAYOUT ================= */}
           <Route element={<Layout />}>
@@ -57,13 +73,13 @@ function App() {
             <Route path="/jobs/:id" element={<JobDetails />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/personal-assistant" element={<PersonalAssistant/>} />
             <Route path="/verify-email" element={<VerifyEmail />} />
                     </Route>
 
       
 <Route element={<CompanyLayout />}>
   <Route path="/company/" element={<Home />} />
-  <Route path="/company/dashboard" element={<CompanyDashboard />} />
   <Route path="/company/profile" element={<CompanyProfile />} />
   <Route path="/company/post-job" element={<PostJob />} />
   <Route path="/company/company_jobs" element={<MyJobs />} />
@@ -77,8 +93,39 @@ function App() {
   <Route path="/admin/dashboard" element={<AdminDashboard />} />
   <Route path="/admin/companies" element={<AdminCompanies />} />
 </Route>         
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={
+              token ? (
+                role === "admin" ? (
+                  <Navigate to="/admin/dashboard" />
+                ) : role === "company" ? (
+                  <Navigate to="/company/" />
+                ) : (
+                  <Navigate to="/feed" />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              token ? (
+                role === "admin" ? (
+                  <Navigate to="/admin/dashboard" />
+                ) : role === "company" ? (
+                  <Navigate to="/company/" />
+                ) : (
+                  <Navigate to="/feed" />
+                )
+              ) : (
+                <Signup />
+              )
+            }
+          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>

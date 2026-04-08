@@ -31,6 +31,20 @@ export default function MyJobs() {
     }
   };
 
+  const closeJob = async (jobId) => {
+    const confirmed = window.confirm("Are you sure you want to close this job?");
+    if (!confirmed) return;
+
+    try {
+      await api.get(`/company/close_job/${jobId}`);
+      toast.success("Job closed successfully.");
+      setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
+    } catch (err) {
+      console.error("close_job error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.error || "Failed to close job");
+    }
+  };
+
   if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
 
   return (
@@ -72,12 +86,20 @@ export default function MyJobs() {
                   )}
                 </div>
               </div>
-              <button
-                className="btn btn-outline-primary btn-sm"
-                onClick={() => navigate(`/company/applications/${j.id}`)}
-              >
-                <i className="bi bi-people me-1"></i> View Applicants
-              </button>
+              <div className="d-flex flex-wrap gap-2">
+                <button
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => navigate(`/company/applications/${j.id}`)}
+                >
+                  <i className="bi bi-people me-1"></i> View Applicants
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => closeJob(j.id)}
+                >
+                  <i className="bi bi-x-circle me-1"></i> Close Job
+                </button>
+              </div>
             </div>
           </div>
         </div>

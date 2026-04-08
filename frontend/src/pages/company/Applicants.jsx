@@ -34,7 +34,9 @@ export default function Applicants() {
   if (loading) return <div className="text-center mt-5"><SpinnerLoader size="3rem" color="#0d6efd" /></div>;
 
   return (
-    <div className="container mt-4">
+    <div className="container-fluid p-responsive" style={{ maxWidth: "1000px", margin: "0 auto" }}>
+
+
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h4 className="fw-bold mb-0">Applicants</h4>
         <span className="badge bg-primary fs-6">{apps.length} Total</span>

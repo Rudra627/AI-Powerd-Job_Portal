@@ -82,7 +82,11 @@ export default function Login() {
 
       /* ================= ROLE REDIRECT ================= */
 
-      if (data.role === "company") {
+      const role = data.role?.toLowerCase();
+
+      if (role === "admin" || role === "superadmin") {
+        window.location.href = "/admin/dashboard";
+      } else if (role === "company") {
         window.location.href = "/company/";
       } else {
         window.location.href = "/feed";
@@ -99,9 +103,10 @@ export default function Login() {
   /* ================= UI ================= */
 
   return (
-    <div className="container mt-5 d-flex justify-content-center">
+    <div className="container-fluid p-responsive d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
 
-      <div className="card shadow p-4" style={{ width: "400px" }}>
+      <div className="card shadow p-4" style={{ width: "100%", maxWidth: "400px" }}>
+
 
         <h4 className="text-center mb-2">Welcome Back 👋</h4>
         <p className="text-muted text-center">Login to your account</p>

@@ -1,32 +1,151 @@
-/* Profile Page Styles */
+/* Profile Page Styles - LinkedIn Style */
 
 .profile-container {
-  display: flex;
-  gap: 30px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  min-height: calc(100vh - 120px);
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 32px;
+  background: #f3f5f6;
+  padding: 28px;
+  min-height: calc(100vh - 70px);
+  max-width: 1360px;
+  margin: 0 auto;
 }
 
 .profile-left-sidebar {
-  width: 300px;
   background: white;
-  border-radius: 12px;
-  padding: 25px;
-  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 28px 24px;
+  border: 1px solid #e1e5ea;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  height: fit-content;
+  position: sticky;
+  top: 80px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
 }
 
 .profile-main-content {
-  flex-grow: 1;
   background: white;
-  border-radius: 12px;
-  padding: 30px;
-  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 36px;
+  border: 1px solid #e1e5ea;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+/* Desktop - wider 2 Column */
+@media (max-width: 1400px) {
+  .profile-container {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 26px;
+  }
+}
+
+/* Tablet - 2 Column */
+@media (max-width: 1024px) {
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px 16px;
+  }
+
+  .profile-left-sidebar {
+    width: 100%;
+    position: static;
+    padding: 20px;
+  }
+
+  .profile-main-content {
+    padding: 20px;
+  }
+}
+
+/* Mobile - Single Column */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .profile-left-sidebar {
+    width: 100%;
+    position: static;
+    padding: 20px;
+    display: flex; /* Ensure it's visible */
+    border-radius: 12px;
+  }
+
+  .profile-main-content {
+    width: 100%;
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+
+  .profile-photo {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .profile-name {
+    font-size: 22px !important;
+    margin-top: 12px;
+  }
+
+  .profile-header-top {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .profile-location {
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+  .profile-container {
+    gap: 12px;
+    padding: 0;
+  }
+
+  .profile-left-sidebar {
+    padding: 12px;
+    border-radius: 6px;
+    margin: 0;
+  }
+
+  .profile-main-content {
+    padding: 12px;
+    border-radius: 6px;
+    margin: 0;
+  }
+
+  .profile-photo {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .profile-name {
+    font-size: 18px !important;
+    margin-top: 8px;
+  }
+
+  .profile-sidebar-title {
+    font-size: 11px;
+  }
+
+  .profile-sidebar-section {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px 12px !important;
+  }
 }
 
 .profile-photo {
@@ -40,28 +159,43 @@
 
 .profile-sidebar-section {
   width: 100%;
-  margin-top: 25px;
+  margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid #f0f0f0;
 }
 
+.profile-sidebar-section:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
 .profile-sidebar-title {
-  font-size: 14px;
-  color: #999;
+  font-size: 13px;
+  color: #7a8a99;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 15px;
-  font-weight: 600;
+  margin-bottom: 16px;
+  font-weight: 700;
 }
 
 .profile-sidebar-item {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .profile-sidebar-label {
   font-size: 13px;
-  color: #666;
-  margin-bottom: 2px;
+  color: #6b7584;
+  margin-bottom: 4px;
+}
+
+.profile-left-sidebar .input-group,
+.profile-left-sidebar .input-group .form-control {
+  width: 100%;
+}
+
+.profile-left-sidebar .btn-outline-primary {
+  min-width: 90px;
 }
 
 .profile-sidebar-value {
@@ -72,15 +206,16 @@
 .profile-header-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 30px;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 20px;
 }
 
 .profile-name {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 5px;
+  color: #243048;
+  margin-bottom: 6px;
 }
 
 .profile-location {
@@ -110,8 +245,10 @@
 
 .profile-btn-group {
   display: flex;
-  gap: 10px;
-  margin-top: 25px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+  align-items: center;
 }
 
 .profile-tabs {
@@ -150,13 +287,14 @@
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 15px 30px;
-  margin-top: 20px;
+  gap: 20px 36px;
+  margin-top: 22px;
+  align-items: center;
 }
 
 .info-label {
   color: #7f8c8d;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .info-value {
@@ -210,4 +348,114 @@
   color: #666;
   margin-bottom: 5px;
   font-weight: 500;
+}
+
+/* Additional Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .profile-tabs {
+    gap: 20px;
+  }
+
+  .profile-tab {
+    padding: 8px 0;
+    font-size: 0.9rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 10px 15px;
+  }
+
+  .skill-tag {
+    padding: 3px 10px;
+    font-size: 12px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+
+  .profile-btn-group {
+    flex-wrap: wrap;
+  }
+
+  .profile-btn-group button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .modal-dialog {
+    max-width: 95% !important;
+    margin: auto;
+  }
+
+  .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .row > [class*="col-"] {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-location {
+    font-size: 12px;
+  }
+
+  .profile-tabs {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .profile-tab {
+    padding: 6px 0;
+    font-size: 0.85rem;
+  }
+
+  .profile-tab.active::after {
+    height: 1.5px;
+  }
+
+  .experience-card {
+    margin-bottom: 15px;
+  }
+
+  .experience-title {
+    font-size: 14px;
+  }
+
+  .experience-meta {
+    font-size: 12px;
+  }
+
+  .modal-dialog {
+    max-width: 100%;
+    margin: 10px;
+  }
+
+  .modal-content {
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .col-md-6, .col-md-4, .col-md-3, .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .form-control, .form-select, textarea {
+    font-size: 16px;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
 }

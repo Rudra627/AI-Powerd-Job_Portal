@@ -31,12 +31,11 @@ export default function AdminDashboard() {
   const approveCompany = async (id) => {
     setActionLoading(id);
     try {
-      // Assuming a standard naming convention for the approval endpoint
-      await api.post(`/admin/approve_company`, { company_id: id });
+      await api.get(`/admin/aprove_company/${id}`);
       toast.success("Company approved successfully! 🎉");
       fetchCompanies();
     } catch (err) {
-      const msg = err.response?.data?.error || "Error approving company. Ensure /admin/approve_company exists.";
+      const msg = err.response?.data?.error || err.response?.data?.msg || "Error approving company. Ensure /admin/aprove_company exists.";
       toast.error(msg);
     } finally {
       setActionLoading(null);

@@ -110,3 +110,15 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .dot-spinner {
+    --uib-size: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dot-spinner {
+    --uib-size: 2rem;
+  }
+}

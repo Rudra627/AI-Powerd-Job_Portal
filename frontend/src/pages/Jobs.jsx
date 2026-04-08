@@ -32,8 +32,9 @@ export default function Jobs() {
   return (
     <>
 
-      <div className="container mt-4">
-        <h3 className="mb-4 text-primary">Job Openings</h3>
+      <div className="container-fluid p-responsive">
+        <h3 className="mb-4 text-primary fw-bold">Job Openings</h3>
+
         
         {loading ? (
           <div className="text-center mt-5 pt-4"><SpinnerLoader size="3rem" color="#0d6efd" /></div>

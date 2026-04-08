@@ -1,29 +1,52 @@
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
 
 export default function MLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  // Close sidebar when clicking outside on mobile
+  const handleOverlayClick = () => {
+    if (sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  };
+
   return (
     <>
       {/* NAVBAR (TOP, FIXED) */}
-      <div style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, background: "white" }}>
-        <Navbar />
+      <div className="navbar-wrapper">
+        <Navbar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
       </div>
 
       {/* SIDEBAR + PAGE CONTENT */}
-      <div className="d-flex" style={{ marginTop: "70px" }}>
-        
+      <div className="main-layout-container">
+
         {/* CONSTANT SIDEBAR */}
-        <div style={{ width: "260px" }}>
-          <Sidebar />
+        <div className={`sidebar-wrapper ${sidebarOpen ? 'active' : ''}`}>
+          <Sidebar isOpen={sidebarOpen} />
         </div>
 
+        {/* MOBILE OVERLAY */}
+        {sidebarOpen && (
+          <div
+            className="mobile-overlay d-lg-none"
+            onClick={handleOverlayClick}
+          />
+        )}
+
         {/* PAGE CONTENT */}
-        <div className="flex-grow-1 p-4">
+        <div className="content-wrapper">
           <Outlet />
         </div>
 
       </div>
+
     </>
   );
 }

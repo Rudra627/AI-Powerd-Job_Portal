@@ -103,32 +103,100 @@ export default function JobApplicants() {
     }
   };
 
-  const renderAnalysisResult = (resultStr) => {
-    if (!resultStr) return <span className="text-muted">No analysis available.</span>;
-    let textOutput = resultStr;
+  const parseAnalysisResult = (result) => {
+    if (!result) return null;
+
+    if (typeof result !== 'string') {
+      return result;
+    }
+
+    const cleaned = result.replace(/```json/gi, '').replace(/```/g, '').trim();
     try {
-      if (typeof resultStr === 'string') {
-        let cleaned = resultStr.replace(/```json/gi, '').replace(/```/g, '').trim();
-        let parsed = JSON.parse(cleaned);
-        
-        if (typeof parsed === 'object' && parsed !== null) {
-          textOutput = Object.entries(parsed)
-            .filter(([_, v]) => v != null && v !== "") // Skip empty details
-            .map(([key, value]) => {
-              const formattedKey = key.replace(/_/g, ' ').toUpperCase();
-              const valStr = Array.isArray(value) ? value.join(", ") : typeof value === 'object' ? JSON.stringify(value) : String(value);
-              return `📌 ${formattedKey}:\n${valStr}`;
-            }).join("\n\n");
-        }
-      }
-    } catch(e) { 
-      // Fallback: If it's already a regular string/paragraph, just strip markdown tags
-      textOutput = resultStr.replace(/```json/gi, '').replace(/```/g, '').trim();
+      return JSON.parse(cleaned);
+    } catch (_err) {
+      return cleaned;
+    }
+  };
+
+  const renderValue = (value) => {
+    if (value === null || value === undefined || value === "") {
+      return <span className="text-muted">Not provided</span>;
+    }
+
+    if (Array.isArray(value)) {
+      return (
+        <div className="d-flex flex-column gap-2">
+          {value.map((item, index) => {
+            if (item === null || item === undefined || item === "") {
+              return (
+                <span key={index} className="badge bg-light text-dark border">
+                  Not provided
+                </span>
+              );
+            }
+
+            if (typeof item === 'object') {
+              return (
+                <div key={index} className="p-3 rounded-3 border bg-white shadow-sm">
+                  {Object.entries(item).map(([subKey, subValue]) => (
+                    <div key={subKey} className="mb-2">
+                      <strong className="text-secondary">{subKey.replace(/_/g, ' ')}</strong>
+                      <div className="mt-1 ps-3">{renderValue(subValue)}</div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+
+            return (
+              <span key={index} className="badge bg-light text-dark border">
+                {String(item)}
+              </span>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (typeof value === 'object') {
+      return (
+        <div className="ps-3">
+          {Object.entries(value).map(([subKey, subValue]) => (
+            <div key={subKey} className="mb-2">
+              <strong>{subKey.replace(/_/g, ' ')}</strong>: {renderValue(subValue)}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return <span>{String(value)}</span>;
+  };
+
+  const renderAnalysisResult = (result) => {
+    const parsed = parseAnalysisResult(result);
+    if (!parsed) return <span className="text-muted">No analysis available.</span>;
+
+    if (typeof parsed === 'string') {
+      return (
+        <div className="text-dark" style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', fontSize: '1.05rem' }}>
+          {parsed}
+        </div>
+      );
     }
 
     return (
-      <div className="text-dark" style={{ whiteSpace: "pre-wrap", lineHeight: "1.8", fontSize: "1.05rem" }}>
-        {textOutput}
+      <div className="text-dark" style={{ lineHeight: '1.8', fontSize: '1.05rem' }}>
+        {Object.entries(parsed)
+          .filter(([_, value]) => value !== null && value !== undefined && value !== "")
+          .map(([key, value]) => (
+            <div key={key} className="mb-3">
+              <div className="text-uppercase text-secondary fs-7 fw-bold mb-1">
+                {key.replace(/_/g, ' ')}
+              </div>
+              {renderValue(value)}
+            </div>
+          ))}
       </div>
     );
   };
@@ -312,7 +380,7 @@ export default function JobApplicants() {
                              <div className="mt-2 fw-medium text-dark small">
                                 {analysisModal.result && analysisModal.result.toLowerCase().includes('recommend') 
                                   ? '✅ System recommends this applicant based on criteria.' 
-                                  : '⚠️ Review analysis insights for fitment details.'}
+                                  : ' Review analysis insights for fitment details.'}
                              </div>
                           </li>
                         </ul>
@@ -327,7 +395,9 @@ export default function JobApplicants() {
                     <h5 className="fw-bold mb-4 pb-2 text-primary border-bottom">
                       <i className="bi bi-stars me-2"></i>Full Analysis Details
                     </h5>
-                    {renderAnalysisResult(analysisModal.result)}
+                    {analysisModal.result ? renderAnalysisResult(analysisModal.result) : (
+                      <div className="text-muted">No detailed analysis available for this resume.</div>
+                    )}
                   </div>
                 </div>
 

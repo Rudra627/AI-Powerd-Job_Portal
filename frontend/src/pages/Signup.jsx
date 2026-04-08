@@ -87,8 +87,9 @@ export default function Signup() {
   };
 
   return (
-    <div className="container mt-5 d-flex justify-content-center">
-      <div className="card shadow-sm p-4" style={{ width: "420px" }}>
+    <div className="container-fluid p-responsive d-flex justify-content-center align-items-center" style={{ minHeight: "90vh", padding: "24px 0" }}>
+      <div className="card shadow-sm p-4" style={{ width: "100%", maxWidth: "420px" }}>
+
 
         <h4 className="text-center mb-2">Create Account 🚀</h4>
         <p className="text-muted text-center mb-3">

@@ -1,16 +1,16 @@
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
-export default function Sidebar() {
+
+export default function Sidebar({ isOpen }) {
   const menu = [
     { path: "/profile", label: "Profile", icon: "bi-person" },
     { path: "/jobs", label: "Jobs", icon: "bi-briefcase" },
     { path: "/create-post", label: "Create Post", icon: "bi-plus-square" },
-    { path: "/mock-interview", label: "Mock Interview", icon: "bi-link-45deg" },
     {path:"/personal-assistant",label:"AI Interviewer",icon:"bi-robot"}
   ];
 
   return (
-    <div className="sidebar-fixed bg-white border-end p-3">
+    <div className={`sidebar-fixed bg-white border-end p-3 ${isOpen ? 'active' : ''}`}>
       {menu.map(item => (
         <NavLink
           key={item.path}

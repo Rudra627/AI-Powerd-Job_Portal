@@ -114,37 +114,40 @@ export default function JobDetails() {
 
   return (
     <>
-      <div className="container mt-4 mb-5">
+      <div className="container-fluid p-responsive" style={{ maxWidth: "1000px", margin: "0 auto" }}>
         
         <button className="btn btn-light mb-4 shadow-sm" onClick={() => navigate(-1)}>
-          &larr; Back
+          <i className="bi bi-arrow-left"></i> Back
         </button>
 
-        <div className="card border-0 shadow-sm p-4 mb-4">
+        <div className="card border-0 shadow-sm p-3 p-md-4 mb-4">
           <div className="d-flex justify-content-between align-items-start border-bottom pb-4 mb-4 flex-wrap gap-3">
-            <div>
+            <div className="flex-grow-1">
               <h2 className="fw-bold text-dark mb-2">{job.title} </h2>
-              <h6>{job.status && <span className="badge bg-info text-dark px-3 py-2">Status: <span className="text-capitalize">{job.status}</span></span>}</h6>
-              <h6 className="text-secondary mb-3">{(job.full_name || job.name) ? `Company: ${job.full_name || job.name}` : `Company ID: ${job.company_id}`}</h6>
+              <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
+                {job.status && <span className="badge bg-info text-dark px-3 py-2 text-capitalize">Status: {job.status}</span>}
+                <span className="text-secondary fw-semibold">{(job.full_name || job.name) ? `at ${job.full_name || job.name}` : `at Company ID: ${job.company_id}`}</span>
+              </div>
               <div className="d-flex flex-wrap gap-2 mt-2">
                 {job.employment_type && <span className="badge bg-primary px-3 py-2 text-capitalize">{job.employment_type?.replace('-', ' ')}</span>}
                 {job.is_remote === 'yes' && <span className="badge bg-success px-3 py-2 text-uppercase">Remote</span>}
               </div>
             </div>
             
-            <div className="text-start text-md-end">
+            <div className="apply-btn-section w-100 w-md-auto text-start text-md-end">
               <button 
-                className="btn btn-primary btn-lg px-5 shadow-sm w-100 d-flex justify-content-center align-items-center gap-2"
+                className="btn btn-primary px-md-5 py-2 shadow-sm w-100 d-flex justify-content-center align-items-center gap-2"
                 onClick={handleApplyClick}
-                style={{ height: "48px" }}
+                style={{ minHeight: "48px" }}
               >
                 Apply Now
               </button>
-              <div className="text-muted small mt-2 fw-semibold">
+              <div className="text-muted small mt-2 fw-semibold px-2">
                 {job.number_of_applications} {job.number_of_applications === 1 ? 'applicant' : 'applicants'}
               </div>
             </div>
           </div>
+
 
           <div className="row mb-4">
             <div className="col-md-3 col-sm-6 mb-3 mb-md-0">

@@ -7,24 +7,25 @@ export default function CompanyLayout() {
     
     <>
       {/* NAVBAR (TOP, FIXED) */}
-      <div style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, background: "white" }}>
+      <div className="navbar-wrapper">
         <Navbar />
       </div>
 
       {/* SIDEBAR + PAGE CONTENT */}
-      <div className="d-flex" style={{ marginTop: "70px" }}>
+      <div className="main-layout-container">
         
         {/* CONSTANT SIDEBAR */}
-        <div style={{ width: "260px" }}>
+        <div className="sidebar-wrapper">
           <CompanySidebar />
         </div>
 
         {/* PAGE CONTENT */}
-        <div className="flex-grow-1 p-4" style={{ minHeight: "calc(100vh - 70px)", background: "#f5f7fb" }}>
+        <div className="content-wrapper">
           <Outlet />
         </div>
 
       </div>
+
     </>
   );
 }

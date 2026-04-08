@@ -7,6 +7,9 @@ export default function AdminCompanies() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
+  const [rejectModal, setRejectModal] = useState(null);
+  const [rejectReason, setRejectReason] = useState("");
+
 
   useEffect(() => {
     fetchCompanies();
@@ -31,20 +34,27 @@ export default function AdminCompanies() {
   const verifyCompany = async (id, status) => {
     setActionLoading(id);
     try {
-      // Assuming these endpoints exist or will be created
-      const res = await api.post(`/admin/verify_company`, {
-        company_id: id,
-        status: status // 'verified' or 'rejected'
-      });
-      toast.success(`Company ${status} successfully!`);
-      fetchCompanies(); // Refresh list
+      if (status === "verified") {
+        await api.get(`/admin/aprove_company/${id}`);
+        toast.success("Company approved successfully!");
+      } else {
+        await api.post(`/admin/reject_company/${id}`, {
+          post_id: id,
+          reason: rejectReason || "Application has been rejected by admin."
+        });
+        toast.success("Company rejected successfully.");
+        setRejectModal(null);
+        setRejectReason("");
+      }
+      fetchCompanies();
     } catch (err) {
-      const msg = err.response?.data?.error || `Failed to ${status} company`;
+      const msg = err.response?.data?.error || err.response?.data?.msg || `Failed to ${status} company`;
       toast.error(msg);
     } finally {
       setActionLoading(null);
     }
   };
+
 
   if (loading) {
     return (
@@ -111,11 +121,12 @@ export default function AdminCompanies() {
                         </button>
                         <button
                           className="btn btn-danger btn-sm px-3 d-flex align-items-center gap-1"
-                          onClick={() => verifyCompany(c.company_id, "rejected")}
+                          onClick={() => setRejectModal(c.company_id)}
                           disabled={actionLoading === c.company_id}
                         >
                           <i className="bi bi-x-circle"></i> Reject
                         </button>
+
                       </div>
                     </td>
                   </tr>
@@ -125,6 +136,43 @@ export default function AdminCompanies() {
           </table>
         </div>
       </div>
+
+      {/* Reject Reason Modal */}
+      {rejectModal && (
+        <div className="modal show d-block" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setRejectModal(null)}>
+          <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Reject Company</h5>
+                <button type="button" className="btn-close" onClick={() => setRejectModal(null)}></button>
+              </div>
+              <div className="modal-body">
+                <p>Provide a reason for rejecting this company application:</p>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  placeholder="Enter rejection reason..."
+                  value={rejectReason}
+                  onChange={(e) => setRejectReason(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={() => setRejectModal(null)}>
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => verifyCompany(rejectModal, "rejected")}
+                  disabled={actionLoading === rejectModal}
+                >
+                  {actionLoading === rejectModal ? "Rejecting..." : "Reject"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

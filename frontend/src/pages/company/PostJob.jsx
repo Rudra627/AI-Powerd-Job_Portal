@@ -66,10 +66,10 @@ export default function PostJob() {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container-fluid p-responsive">
+      <div className="card shadow-sm p-3 p-md-4" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <h4 className="fw-bold mb-4">Post New Job</h4>
 
-      <div className="card shadow-sm p-4">
-        <h4 className="mb-3">Post New Job</h4>
 
         {/* Job Title */}
         <input

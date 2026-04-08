@@ -13,21 +13,20 @@ export default function AdminLayout() {
 
   return (
     <>
-      <div style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, background: "white" }}>
+      <div className="navbar-wrapper">
         <Navbar />
       </div>
 
-      <div className="d-flex" style={{ marginTop: "70px" }}>
-        <div style={{ width: "260px" }}>
+      <div className="main-layout-container">
+        <div className="sidebar-wrapper">
           <AdminSidebar />
         </div>
 
-        <div className="flex-grow-1 p-4" style={{ minHeight: "calc(100vh - 70px)", background: "#f8f9fa" }}>
-          <div className="container-fluid">
-            <Outlet />
-          </div>
+        <div className="content-wrapper">
+          <Outlet />
         </div>
       </div>
+
     </>
   );
 }

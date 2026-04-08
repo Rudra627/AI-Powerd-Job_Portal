@@ -73,9 +73,10 @@ export default function CreatePost() {
     <>
 
       {/* FORM */}
-      <div className={`container mt-5 w-50 ${loading ? "opacity-50" : ""}`} style={{ pointerEvents: loading ? "none" : "auto" }}>
+      <div className={`container-fluid p-responsive ${loading ? "opacity-50" : ""}`} style={{ pointerEvents: loading ? "none" : "auto", maxWidth: "600px", margin: "0 auto" }}>
 
-          <h4>Create Post</h4>
+          <h4 className="fw-bold mb-4">Create Post</h4>
+
 
           {/* CAPTION */}
           <textarea

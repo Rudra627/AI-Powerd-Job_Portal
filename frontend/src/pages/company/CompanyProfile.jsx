@@ -21,7 +21,7 @@ export default function CompanyProfile() {
       return;
     }
     fetchCompany();
-  }, []);
+  }, [token, navigate]);
 
   const fetchCompany = async () => {
     try {
@@ -41,7 +41,7 @@ export default function CompanyProfile() {
 
   const handleSave = async () => {
     try {
-      const res = await api.post("/company/profile", company);
+      await api.post("/company/company_info", company);
       toast.success("Company profile updated");
       setEdit(false);
       fetchCompany();
@@ -207,6 +207,14 @@ export default function CompanyProfile() {
                   <div className="info-value">{company.udyam_number || "Not provided"}</div>
                 </div>
               </section>
+              {company.incorporation_certificate && (
+                <section className="mt-4">
+                  <h6 className="text-muted text-uppercase small fw-bold mb-3">Incorporation Certificate</h6>
+                  <p className="text-muted">
+                    <i className="bi bi-file-earmark-check"></i> Certificate uploaded
+                  </p>
+                </section>
+              )}
             </div>
           )}
 
@@ -239,15 +247,51 @@ export default function CompanyProfile() {
                         </div>
                         <div className="col-md-4 mb-3">
                           <label className="form-label fw-bold">Company Type</label>
-                          <input className="form-control" placeholder="e.g. Private, Public" value={company.company_type || ""} onChange={e => setCompany({...company, company_type: e.target.value})} />
+                          <select 
+                            className="form-select" 
+                            value={company.company_type || ""} 
+                            onChange={e => setCompany({...company, company_type: e.target.value})}
+                          >
+                            <option value="">Select Company Type</option>
+                            <option value="Private Limited">Private Limited</option>
+                            <option value="Public Limited">Public Limited</option>
+                            <option value="Government">Government</option>
+                            <option value="LLP">LLP</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="NGO">NGO</option>
+                            <option value="Startup">Startup</option>
+                          </select>
                         </div>
                         <div className="col-md-4 mb-3">
                           <label className="form-label fw-bold">Industry Type</label>
-                          <input className="form-control" placeholder="e.g. IT, Finance" value={company.industry_type || ""} onChange={e => setCompany({...company, industry_type: e.target.value})} />
+                          <select 
+                            className="form-select" 
+                            value={company.industry_type || ""} 
+                            onChange={e => setCompany({...company, industry_type: e.target.value})}
+                          >
+                            <option value="">Select Industry Type</option>
+                            <option value="IT">IT</option>
+                            <option value="Non-Tech">Non-Tech</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Education">Education</option>
+                            <option value="Others">Others</option>
+                          </select>
                         </div>
                         <div className="col-md-4 mb-3">
                           <label className="form-label fw-bold">Company Size</label>
-                          <input className="form-control" placeholder="e.g. 50, 200" value={company.company_size || ""} onChange={e => setCompany({...company, company_size: e.target.value})} />
+                          <select 
+                            className="form-select" 
+                            value={company.company_size || ""} 
+                            onChange={e => setCompany({...company, company_size: e.target.value})}
+                          >
+                            <option value="">Select Company Size</option>
+                            <option value="1-10">1-10</option>
+                            <option value="11-50">11-50</option>
+                            <option value="51-200">51-200</option>
+                            <option value="201-500">201-500</option>
+                            <option value="500+">500+</option>
+                          </select>
                         </div>
                         <div className="col-md-4 mb-3">
                           <label className="form-label fw-bold">State</label>
@@ -273,6 +317,7 @@ export default function CompanyProfile() {
                           <label className="form-label fw-bold">Udyam Number</label>
                           <input className="form-control" value={company.udyam_number || ""} onChange={e => setCompany({...company, udyam_number: e.target.value})} />
                         </div>
+                      
                         <div className="col-md-12 mb-3">
                           <label className="form-label fw-bold">About</label>
                           <textarea className="form-control" rows="3" value={company.about || ""} onChange={e => setCompany({...company, about: e.target.value})}></textarea>

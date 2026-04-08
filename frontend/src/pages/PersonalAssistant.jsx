@@ -5,7 +5,7 @@ import './PersonalAssistant.css';
 export default function PersonalAssistant() {
   const [messages, setMessages] = useState([
     {
-      text: 'Hello. I am your technical interviewer for today. Ready to begin? Please tell me a bit about your background or start by saying "Start Interview".',
+      text: 'Hello. I am your technical interviewer for today. Ready to begin?',
       isUser: false
     }
   ]);
@@ -32,21 +32,27 @@ export default function PersonalAssistant() {
     if (!message) return;
 
     setInputValue('');
-    setMessages(prev => [...prev, { text: message, isUser: true }]);
+    setMessages((prev) => [...prev, { text: message, isUser: true }]);
     setIsTyping(true);
 
     try {
       const response = await api.post('/technical/interview', { message });
-      setMessages(prev => [...prev, { 
-        text: response.data?.response || response.data?.message || 'I am sorry, I encountered an error.', 
-        isUser: false 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: response.data?.response || response.data?.message || 'I am sorry, I encountered an error.',
+          isUser: false
+        }
+      ]);
     } catch (error) {
       console.error('Error:', error);
-      setMessages(prev => [...prev, { 
-        text: 'System Error: Unable to reach the interview server. Please ensure backend is running.', 
-        isUser: false 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: 'System Error: Unable to reach the interview server. Please ensure backend is running.',
+          isUser: false
+        }
+      ]);
     } finally {
       setIsTyping(false);
       setTimeout(() => {
@@ -56,11 +62,12 @@ export default function PersonalAssistant() {
   };
 
   return (
-    <div className="pa-wrapper container mt-4 mb-5">
+    <div className="pa-page p-responsive">
       <div className="pa-container">
+
         <header className="pa-header">
           <div className="pa-logo-section">
-            <h4 className="m-0 fw-bold">AI Interviewer <span className="fs-6 fw-light opacity-75"></span></h4>
+            <h1>AI Interviewer</h1>
           </div>
           <div className="pa-status">
             <div className="pa-status-dot"></div>
@@ -68,39 +75,46 @@ export default function PersonalAssistant() {
           </div>
         </header>
 
-        <div className="pa-chat-window" id="chat-window" ref={chatWindowRef}>
+        <div className="pa-chat-window" ref={chatWindowRef}>
           {messages.map((msg, idx) => (
-            <div key={idx} className={`pa-message ${msg.isUser ? 'pa-user-message' : 'pa-ai-message'}`} dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br>') }} />
+            <div
+              key={idx}
+              className={`message ${msg.isUser ? 'user-message' : 'ai-message'}`}
+            >
+              {msg.text.split('\n').map((line, lineIndex) => (
+                <React.Fragment key={lineIndex}>
+                  {line}
+                  {lineIndex < msg.text.split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </div>
           ))}
-
           {isTyping && (
-            <div className="pa-typing-indicator" id="typing">
-              <div className="pa-dot"></div>
-              <div className="pa-dot"></div>
-              <div className="pa-dot"></div>
+            <div className="typing-indicator" id="typing">
+              <div className="dot"></div>
+              <div className="dot"></div>
+              <div className="dot"></div>
             </div>
           )}
         </div>
 
-        <div className="pa-input-area">
-          <form id="chat-form" onSubmit={sendMessage} className="w-100">
-            <div className="pa-input-container">
-              <input 
-                type="text" 
-                id="user-input" 
-                placeholder="Type your response here..." 
+        <div className="input-area">
+          <form className="chat-form" onSubmit={sendMessage}>
+            <div className="input-container">
+              <input
+                type="text"
+                placeholder="Type your response here..."
                 autoComplete="off"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={isTyping}
                 ref={inputRef}
               />
-              <button type="submit" id="send-btn" disabled={isTyping || !inputValue.trim()}>Send</button>
+              <button type="submit" disabled={isTyping || !inputValue.trim()}>
+                Send
+              </button>
             </div>
           </form>
-          <div className="pa-footer-text">
-            Your performance is being evaluated in real-time.
-          </div>
         </div>
       </div>
     </div>
